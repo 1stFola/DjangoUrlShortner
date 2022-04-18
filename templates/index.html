@@ -1,5 +1,22 @@
 <head>
-    <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous">
+
+function myFunction() {
+  
+  let copyText = document.getElementById("myInput");
+
+
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+
+  
+  navigator.clipboard.writeText(copyText.value);
+
+  alert("Copied the text: " + copyText.value);
+}
+
+    </script>
+
     <style>
         *,
 *::before,
@@ -29,7 +46,7 @@ main {
   max-width: 720px;
   width: 100%;
   border: 2.5px solid #330867;
-  border-radius: 2.5px;
+  border-radius: 4px;
   box-shadow: 0 10px 20px rgba(17, 17, 17, 0.125),
     0 5px 5px rgba(17, 17, 17, 0.25);
   background-image: linear-gradient(to top, #e3beb8 0%, #ff2e2e 50%);
