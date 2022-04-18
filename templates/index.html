@@ -15,7 +15,7 @@
   navigator.clipboard.writeText(copyText.value);
 
   alert("Copied the text: " + copyText.value);
-}
+} 
 
     </script>
 
@@ -141,7 +141,7 @@ section {
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
       },
       success: function(data){
-        $('h2').html("https://urlfolac9.herokuapp.com/"+data)
+        $('h2').html("urlfolac9.herokuapp.com/"+data)
       }
     });
   });
