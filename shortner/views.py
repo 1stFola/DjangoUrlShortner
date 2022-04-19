@@ -1,4 +1,3 @@
-import imp
 from django.shortcuts import render, redirect
 import uuid
 from .models import Url
@@ -10,11 +9,14 @@ def index(request):
 
 def create(request):
     if request.method == 'POST':
-        link = request.POST['link']
+        link = request.POST['link']        
+        if not link:
+            return
         uid = str(uuid.uuid4())[:5]
         new_url = Url(link=link,uuid=uid)
         new_url.save()
         return HttpResponse(uid)
+
 
 
 def go(request, pk):

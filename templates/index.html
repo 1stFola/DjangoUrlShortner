@@ -1,23 +1,6 @@
 <head>
+  {% load static %}
     <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous">  </script>
-
-    <script>
-
-  function myFunction() {
-  
-  let copyText = document.getElementById("myInput");
-
-
-  copyText.select();
-  copyText.setSelectionRange(0, 99999);
-
-  
-  navigator.clipboard.writeText(copyText.value);
-
-  alert("Copied the text: " + copyText.value);
-} 
-
-    </script>
 
     <style>
         *,
@@ -51,7 +34,7 @@ main {
   border-radius: 4px;
   box-shadow: 0 10px 20px rgba(17, 17, 17, 0.125),
     0 5px 5px rgba(17, 17, 17, 0.25);
-  background-image: linear-gradient(to top, #e3beb8 0%, #ff2e2e 50%);
+  background-image: linear-gradient(to top, #e3beb8 0%, #f77878 50%);
 }
 
 h1 {
@@ -82,32 +65,44 @@ button {
   flex: 1;
   background-color: transparent;
   color: white;
-  /* &:hover {
+  }
+
+  button:hover {
     background-color: rgba(255, 255, 255, 0.5);
-  } */
-}
+  }
 
 section {
   min-height: 120px;
   text-align: center;
   background-color: white;
+ 
 }
 
 .btnSuccess {
-    border: 2px solid black;
-    background-color:  #f28ab2;
-    color: white;
+    border: 0.5px solid black;
+    background-color:  white;
+    color: black;
     padding: 14px 28px;
     font-size: 16px;
     cursor: pointer;
-    border-color: black;
-    border-radius: 5px;
+    border-radius: 10px;
+  
 }
 
+
+
 .btnSuccess:hover {
-    background-color: white;
-    color:  #f28ab2;
+    background-color: rgb(240, 113, 113);
+    color:  #b6aeae;
   }
+
+  .logo-image{
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: -6px;
+}
 
 
     </style>
@@ -115,17 +110,28 @@ section {
 
 
 <main>
+  <!-- <a class="navbar-brand" href="/">
+    <div class="logo-image">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMXDsG0RIoL7FLYIsTungDmAFx0EISWUUE3F_XQr7Z0w&s" class="img-fluid">
+    </div>
+</a> -->
+
   <h1>URL Shortener</h1>
   <form id="post-form">
     {% csrf_token %}
-  <input type="text" name="link" id="link" placeholder="Paste your long URL here, make we shorten am!">
+  <input type="text" name="link" id="link" placeholder="Paste a long URL here, make we shorten am !">
   <div class="buttons">
     <button type="submit" id="shorten">Click to shorten</button>
   </div>
   </form>
   
-  <section id="section"><h2 id="myInput"></h2><button id="btnSuccess" onclick="myFunction()">Copy</button></section>
-
+  <section id="section">
+    <h2 id="myInput"></h2>
+    <div>
+    <button class="btnSuccess" id="thisButton">Copy</button>
+    </div>
+  </section>
+  
     
 </main>
 
@@ -147,5 +153,48 @@ section {
   });
 </script>
 
+<script type="text/javascript">
+  function fallbackCopyTextToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    textArea.value = text;
+    
+    // Avoid scrolling to bottom
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      var successful = document.execCommand('copy');
+      var msg = successful ? 'successful' : 'unsuccessful';
+      console.log('Fallback: Copying text command was ' + msg);
+    } catch (err) {
+      console.error('Fallback: Oops, unable to copy', err);
+    }
+
+    document.body.removeChild(textArea);
+  }
+
+  function copyTextToClipboard(text) {
+    if (!navigator.clipboard) {
+      fallbackCopyTextToClipboard(text);
+      return;
+    }
+    navigator.clipboard.writeText(text).then(function() {
+      // alert('Copying to clipboard was successful!');
+    }, function(err) {
+      console.error('Async: Could not copy text: ', err);
+    });
+  }
+
+  copyBtn = document.getElementById('thisButton');
+  copyText = document.getElementById('myInput');
+  copyBtn.addEventListener('click', function(event) {
+    copyTextToClipboard(copyText.innerHTML)
+  });
+</script>
 
 <!-- www.surls.ga -->
